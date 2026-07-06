@@ -292,9 +292,25 @@
                     <i class="fa-brands fa-linkedin-in text-xl"></i>
                 </a>
 
-                <!-- Email -->
+                <!-- Email
                 <a href="mailto:avignoliconstrucao@gmail.com" aria-label="Enviar E-mail" class="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover-google transition-all duration-300 group">
                     <i class="fa-regular fa-envelope text-2xl group-hover:scale-110 transition-transform"></i>
+                </a> -->
+
+                <!-- Email -->
+                <a href="mailto:avignoliconstrucao@gmail.com" 
+                onclick="lidarComEmail(event)"
+                aria-label="Enviar E-mail" 
+                class="relative w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover-google transition-all duration-300 group cursor-pointer">
+                    
+                    <i class="fa-regular fa-envelope text-2xl group-hover:scale-110 transition-transform"></i>
+                    
+                    <!-- Tooltip (Aparece no PC ao passar o mouse) -->
+                    <span class="absolute -top-12 scale-0 group-hover:scale-100 transition-all duration-200 bg-gray-800 text-white text-sm py-1 px-3 rounded-lg whitespace-nowrap pointer-events-none hidden sm:block">
+                        <span id="texto-tooltip-email">Copiar e-mail</span>
+                        <!-- Setinha do tooltip -->
+                        <svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
+                    </span>
                 </a>
 
                 <!-- WhatsApp -->
@@ -392,6 +408,37 @@
                 }, 6000);
             });
         });
+
+        // =========================================================
+        // NOVA FUNÇÃO: Copiar e-mail no PC ou abrir app no celular
+        // =========================================================
+        function lidarComEmail(event) {
+            // Verifica se é um dispositivo móvel
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            if (!isMobile) {
+                // SE FOR COMPUTADOR: Previne abrir o mailto em branco
+                event.preventDefault();
+                
+                // Copia para a área de transferência
+                navigator.clipboard.writeText("avignoliconstrucao@gmail.com").then(() => {
+                    const textoTooltip = document.getElementById("texto-tooltip-email");
+                    
+                    if (textoTooltip) {
+                        // Muda o texto do balãozinho
+                        textoTooltip.innerText = "E-mail copiado!";
+                        
+                        // Volta ao texto original depois de 2 segundos
+                        setTimeout(() => {
+                            textoTooltip.innerText = "Copiar e-mail";
+                        }, 2000);
+                    }
+                }).catch(err => {
+                    console.error("Erro ao copiar o e-mail: ", err);
+                });
+            }
+        }
+        
     </script>
 </body>
 </html>
